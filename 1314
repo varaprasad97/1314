@@ -1,0 +1,351 @@
+Step 1: Create Project Structure
+bash
+Copy
+Edit
+mkdir flask-docker-app
+cd flask-docker-app
+Project Structure:
+Copy
+Edit
+flask-docker-app/
+│
+├── app.py
+├── requirements.txt
+└── Dockerfile
+📝 Step 2: Create a Simple Flask App
+app.py
+
+python
+Copy
+Edit
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Hello, Docker World!"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+📦 Step 3: Create Requirements File
+requirements.txt
+
+ini
+Copy
+Edit
+flask==2.2.5
+🐳 Step 4: Write Dockerfile
+Dockerfile
+
+dockerfile
+Copy
+Edit
+# Use official Python image
+FROM python:3.9-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy files to the container
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+
+COPY . .
+
+# Expose port
+EXPOSE 5000
+
+# Run the application
+CMD ["python", "app.py"]
+🔨 Step 5: Build the Docker Image
+In your terminal (inside the project folder):
+
+bash
+Copy
+Edit
+docker build -t flask-docker-app .
+🚀 Step 6: Run the Docker Container
+bash
+Copy
+Edit
+docker run -d -p 5000:5000 flask-docker-app
+Now open your browser and go to http://localhost:5000. You should see:
+
+Copy
+Edit
+Hello, Docker World!
+🧼 Step 7: Stop and Remove the Container (optional)
+To list running containers:
+
+bash
+Copy
+Edit
+docker ps
+To stop the container:
+
+bash
+Copy
+Edit
+docker stop <container_id>
+To remove the container:
+
+bash
+Copy
+Edit
+docker rm <container_id>
+✅ Summary
+You created a simple Flask app.
+
+You containerized it with Docker.
+
+You ran it inside a container and accessed it via browser.
+
+Would you like to extend this by adding MongoDB/MySQL with Docker Compose, or deploy it to a cloud platform like AWS/GCP?
+
+
+
+
+
+🐍 If you’re using Python, install it via pip:
+bash
+Copy
+Edit
+pip install selenium
+🌐 Step 2: Install a WebDriver
+Selenium uses web drivers to interact with browsers. Most common is ChromeDriver.
+
+🔹 For Chrome:
+Check your Chrome version:
+Open Chrome → chrome://settings/help
+
+Download matching version of ChromeDriver from:
+https://sites.google.com/chromium.org/driver/
+
+Extract the executable and place it in a known path or your project folder.
+
+Tip: You can also install ChromeDriver using webdriver-manager (recommended for simplicity):
+
+bash
+Copy
+Edit
+pip install webdriver-manager
+✍️ Step 3: Write a Simple Selenium Script
+Here’s a Python example using Chrome and webdriver-manager.
+
+python
+Copy
+Edit
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.by import By
+import time
+
+# Set up driver
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+
+# Open a website
+driver.get("https://www.google.com")
+
+# Wait for the page to load
+time.sleep(2)
+
+# Find the search box using name attribute
+search_box = driver.find_element(By.NAME, "q")
+
+# Type a search query
+search_box.send_keys("Selenium Python")
+
+# Submit the search form
+search_box.submit()
+
+# Wait to see results
+time.sleep(3)
+
+# Close the browser
+driver.quit()
+🧪 Step 4: Explore Selenium Features
+
+Task	Code
+Find element by ID	driver.find_element(By.ID, "element_id")
+Find element by Name	driver.find_element(By.NAME, "element_name")
+Find by Class	driver.find_element(By.CLASS_NAME, "class_name")
+Click a button	element.click()
+Get element text	element.text
+Send input	element.send_keys("text")
+Wait (Implicit)	driver.implicitly_wait(10)
+Wait (Explicit)	See below ⬇️
+⏳ Explicit Wait Example (Wait Until Element Appears)
+python
+Copy
+Edit
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+# Wait until the search box is available
+wait = WebDriverWait(driver, 10)
+search_box = wait.until(EC.presence_of_element_located((By.NAME, "q")))
+📁 Bonus: Organize Your Tests with unittest
+python
+Copy
+Edit
+import unittest
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+
+class GoogleSearchTest(unittest.TestCase):
+    def setUp(self):
+        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    
+    def test_search(self):
+        self.driver.get("https://www.google.com")
+        search_box = self.driver.find_element(By.NAME, "q")
+        search_box.send_keys("Python unittest Selenium")
+        search_box.submit()
+        self.assertIn("Python unittest Selenium", self.driver.title)
+    
+    def tearDown(self):
+        self.driver.quit()
+
+if __name__ == "__main__":
+    unittest.main()
+✅ Summary
+✅ Installed Selenium and ChromeDriver (or webdriver-manager)
+
+✅ Ran basic browser automation (open site, search, submit)
+
+✅ Explored locating strategies and wait mechanisms
+
+✅ Structured tests with unittest
+
+Would you like to explore headless mode, test report generation, or integration with CI/CD tools like Jenkins or GitHub Actions?
+
+
+
+
+
+
+
+You said:
+write a simple javascript program and test it using selenium 
+
+
+ChatGPT said:
+Sure! Let’s walk through creating a simple JavaScript web app and writing a Selenium script to test it.
+
+🧾 Step 1: Create a Simple JavaScript Web Page
+Create a file called index.html with a basic input + button + output logic.
+
+html
+Copy
+Edit
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple JS App</title>
+</head>
+<body>
+    <h1>Multiply Two Numbers</h1>
+    <input type="number" id="num1" placeholder="Enter first number">
+    <input type="number" id="num2" placeholder="Enter second number">
+    <button onclick="multiply()">Multiply</button>
+    <p id="result">Result: </p>
+
+    <script>
+        function multiply() {
+            let a = document.getElementById("num1").value;
+            let b = document.getElementById("num2").value;
+            let result = Number(a) * Number(b);
+            document.getElementById("result").textContent = "Result: " + result;
+        }
+    </script>
+</body>
+</html>
+Open it in your browser manually to verify it works.
+
+🌐 Step 2: Serve the File Locally (Optional)
+If you're using Selenium, it’s better to serve the HTML through a local server.
+
+Run a local server from the folder containing index.html:
+
+bash
+Copy
+Edit
+# Python 3.x
+python -m http.server 8000
+Now open: http://localhost:8000/index.html
+
+🧪 Step 3: Write Selenium Test (Python)
+Make sure selenium and webdriver-manager are installed:
+
+bash
+Copy
+Edit
+pip install selenium webdriver-manager
+test_multiply.py:
+python
+Copy
+Edit
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from webdriver_manager.chrome import ChromeDriverManager
+import time
+
+# Set up driver
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+
+# Open the local web app
+driver.get("http://localhost:8000/index.html")
+
+# Input numbers
+driver.find_element(By.ID, "num1").send_keys("6")
+driver.find_element(By.ID, "num2").send_keys("7")
+
+# Click the button
+driver.find_element(By.TAG_NAME, "button").click()
+
+# Wait for the result to update
+time.sleep(1)
+
+# Check result
+result = driver.find_element(By.ID, "result").text
+print("Displayed result:", result)
+
+# Assertion (Optional)
+assert "42" in result
+
+# Close
+driver.quit()
+✅ Expected Output
+When you run the test:
+
+bash
+Copy
+Edit
+python test_multiply.py
+You'll see:
+
+sql
+Copy
+Edit
+Displayed result: Result: 42
+✅ Summary
+Created a simple JavaScript app (index.html)
+
+Served it locally with Python’s HTTP server
+
+Wrote a Selenium test in Python to:
+
+Open the page
+
+Fill input fields
+
+Click a button
+
+Validate the result
+
+
+
+
